@@ -1,3 +1,4 @@
+using Microsoft.Extensions.FileProviders;
 using MixTech.Web.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,11 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "uploads")),
+    RequestPath = "/uploads"
+});
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()

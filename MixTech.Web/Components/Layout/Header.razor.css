@@ -1,0 +1,77 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  height: 64px;
+  padding: 0 24px;
+
+  box-sizing: border-box;
+
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+/* Logo */
+.logo {
+  display: flex;
+
+  align-items: center;
+  font-size: 1rem;
+  gap: 8px;
+}
+.logo h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #007acc;
+  margin: 0;
+}
+.logo-img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+}
+
+/* Botones del Header */
+.header .btn-menu,
+.header .btn {
+  border: none;
+  background: transparent;
+  color: #000000;
+  font-size: 1.35rem;
+  padding: 8px;
+  border-radius: 8px;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+/* Iconos */
+.header .btn-menu i,
+.header .btn i {
+  color: #000000;
+}
+
+/* Efecto Hover */
+.header .btn-menu:hover,
+.header .btn:hover {
+  background-color: #eaf3ff;
+  color: #007acc;
+}
+
+.header .btn-menu:hover i,
+.header .btn:hover i {
+  color: #007acc;
+}
