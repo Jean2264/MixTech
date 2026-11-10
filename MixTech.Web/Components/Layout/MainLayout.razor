@@ -1,18 +1,23 @@
 ﻿@inherits LayoutComponentBase
 
-<main>  
-           <Header OnMenuClick="ToggleSidebar" />
+
+<main class="app-layout">
+    <Header OnMenuClick="ToggleSidebar" />
+
     <div class="content">
         <Sidebar IsPinned="isSidebarPinned" />
-        @Body
+
+        <section class="page-container">
+            @Body
+        </section>
     </div>
 </main>
 
-@code{
+@code {
+    private bool isSidebarPinned = false;
 
-    private bool isSidebarPinned= false;
     private void ToggleSidebar()
     {
-        isSidebarPinned= !isSidebarPinned;
+        isSidebarPinned = !isSidebarPinned;
     }
 }

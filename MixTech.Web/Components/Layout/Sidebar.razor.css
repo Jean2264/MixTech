@@ -11,11 +11,29 @@
   padding: 20px 12px;
 
   overflow-x: hidden;
+  overflow-y: auto;
 
   background-color: #ffffff;
   border-right: 1px solid #e5e5e5;
 
   transition: width 0.25s ease;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: #888;
 }
 
 /* =========================================
