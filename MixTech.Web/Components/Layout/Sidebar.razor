@@ -1,7 +1,113 @@
-﻿<aside class="sidebar">
+﻿<aside class="sidebar @(IsExpanded ? "expanded" : "collapsed")"
+       @onmouseenter="HandleMouseEnter"
+       @onmouseleave="HandleMouseLeave">
     <nav aria-label="Navegacion principal">
-        <NavLink href="/" Match="NavLinkMatch.All">Inicio</NavLink>
-    </nav>
+        <NavLink class="sidebar-link featured-link"
+                 href="/"
+                 Match="NavLinkMatch.All">
+            <i class="bi bi-house-door sidebar-icon" aria-hidden="true"></i>
+            <span>Inicio</span>
+            <i class="bi bi-chevron-right link-arrow" aria-hidden="true"></i>
+        </NavLink>
 
-    <section cl></section>
+        <section class="nav-section">
+            <h2>Operación</h2>
+            <ul>
+                <li>
+                    <NavLink class="sidebar-link" href="/ordenes-servicio">
+                        <i class="bi bi-clipboard-check sidebar-icon" aria-hidden="true"></i>
+                        <span>Órdenes de servicio</span>
+                        <i class="bi bi-chevron-right link-arrow" aria-hidden="true"></i>
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink class="sidebar-link" href="/nuevo-ingreso">
+                        <i class="bi bi-plus-circle sidebar-icon" aria-hidden="true"></i>
+                        <span>Nuevo ingreso</span>
+                        <i class="bi bi-chevron-right link-arrow" aria-hidden="true"></i>
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink class="sidebar-link" href="/clientes">
+                        <i class="bi bi-people sidebar-icon" aria-hidden="true"></i>
+                        <span>Clientes</span>
+                        <i class="bi bi-chevron-right link-arrow" aria-hidden="true"></i>
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink class="sidebar-link" href="/inventario">
+                        <i class="bi bi-box sidebar-icon" aria-hidden="true"></i>
+                        <span>Inventario</span>
+                        <i class="bi bi-chevron-right link-arrow" aria-hidden="true"></i>
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink class="sidebar-link" href="/ventas">
+                        <i class="bi bi-cart sidebar-icon" aria-hidden="true"></i>
+                        <span>Ventas</span>
+                        <i class="bi bi-chevron-right link-arrow" aria-hidden="true"></i>
+                    </NavLink>
+                </li>
+            </ul>
+        </section>
+
+        <section class="nav-section">
+            <h2>Gestión</h2>
+            <ul>
+                <li>
+                    <NavLink class="sidebar-link" href="/reportes">
+                        <i class="bi bi-bar-chart sidebar-icon" aria-hidden="true"></i>
+                        <span>Reportes</span>
+                        <i class="bi bi-chevron-right link-arrow" aria-hidden="true"></i>
+                    </NavLink>
+                </li>
+            </ul>
+        </section>
+
+        <section class="nav-section">
+            <h2>Administración</h2>
+            <ul>
+                <li>
+                    <NavLink class="sidebar-link" href="/usuarios">
+                        <i class="bi bi-people sidebar-icon" aria-hidden="true"></i>
+                        <span>Usuarios y roles</span>
+                        <i class="bi bi-chevron-right link-arrow" aria-hidden="true"></i>
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink class="sidebar-link" href="/auditoria">
+                        <i class="bi bi-journal-check sidebar-icon" aria-hidden="true"></i>
+                        <span>Auditoría</span>
+                        <i class="bi bi-chevron-right link-arrow" aria-hidden="true"></i>
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink class="sidebar-link" href="/configuracion">
+                        <i class="bi bi-gear sidebar-icon" aria-hidden="true"></i>
+                        <span>Configuración</span>
+                        <i class="bi bi-chevron-right link-arrow" aria-hidden="true"></i>
+                    </NavLink>
+                </li>
+            </ul>
+        </section>
+    </nav>
 </aside>
+
+@code {
+    [Parameter]
+    public bool IsPinned { get; set; }
+
+    private bool isHovered = false;
+
+    private bool IsExpanded => IsPinned || isHovered;
+
+    private void HandleMouseEnter()
+    {
+        isHovered = true;
+    }
+
+    private void HandleMouseLeave()
+    {
+        isHovered = false;
+    }
+}

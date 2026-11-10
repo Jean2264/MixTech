@@ -1,0 +1,194 @@
+/* =========================================
+   SIDEBAR - ESTRUCTURA GENERAL
+========================================= */
+
+.sidebar {
+  flex: 0 0 auto;
+  box-sizing: border-box;
+
+  width: 250px;
+  min-height: 100%;
+  padding: 20px 12px;
+
+  overflow-x: hidden;
+
+  background-color: #ffffff;
+  border-right: 1px solid #e5e5e5;
+
+  transition: width 0.25s ease;
+}
+
+/* =========================================
+   ESTADOS: EXPANDIDO Y CONTRAÍDO
+========================================= */
+
+/* Estado expandido */
+.sidebar.expanded {
+  width: 250px;
+}
+
+/* Estado contraído */
+.sidebar.collapsed {
+  width: 70px;
+}
+
+/* Ocultar títulos de las secciones */
+.sidebar.collapsed .nav-section h2 {
+  display: none;
+}
+
+/* Ocultar textos de los enlaces */
+.sidebar.collapsed ::deep .sidebar-link span {
+  display: none;
+}
+
+/* Ocultar flechas cuando está contraído */
+.sidebar.collapsed ::deep .link-arrow {
+  display: none;
+}
+
+/* Centrar iconos */
+.sidebar.collapsed ::deep .sidebar-link {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+  gap: 0;
+}
+
+/* Mantener el tamaño de los iconos */
+.sidebar.collapsed ::deep .sidebar-icon {
+  flex: 0 0 20px;
+}
+
+/* =========================================
+   NAVEGACIÓN
+========================================= */
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* =========================================
+   SECCIONES
+========================================= */
+
+.nav-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Títulos de las secciones */
+.nav-section h2 {
+  margin: 0;
+  padding: 0 12px;
+
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+
+  color: #64748b;
+}
+
+/* Listas */
+.nav-section ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* =========================================
+   ENLACES
+========================================= */
+
+.sidebar ::deep .sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px 12px;
+  border-radius: 50px;
+
+  background-color: #ffffff;
+  border: 1px solid transparent;
+
+  color: #475569;
+  text-decoration: none;
+  font-size: 0.9rem;
+
+  transition: all 0.2s ease;
+}
+
+/* =========================================
+   ICONOS
+========================================= */
+
+.sidebar ::deep .sidebar-icon {
+  flex: 0 0 16px;
+
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* =========================================
+   FLECHAS
+========================================= */
+
+/* Ocultas por defecto */
+.sidebar ::deep .link-arrow {
+  margin-left: auto;
+  font-size: 0.75rem;
+  display: none;
+}
+
+/* Mostrar al pasar el cursor o cuando está activo */
+.sidebar ::deep .sidebar-link:hover .link-arrow,
+.sidebar ::deep .sidebar-link.active .link-arrow {
+  display: inline-block;
+}
+
+/*no mostrar flechas cuando está contraído*/
+.sidebar.collapsed ::deep .link-arrow {
+  display: none !important;
+}
+
+/* =========================================
+   HOVER
+========================================= */
+
+.sidebar ::deep .sidebar-link:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+  color: #2563a6;
+
+  box-shadow: 0 2px 5px rgba(15, 23, 42, 0.04);
+}
+
+/* =========================================
+   ENLACE ACTIVO
+========================================= */
+
+.sidebar ::deep .sidebar-link.active {
+  background-color: #eef4fa;
+  border-color: #d5dfea;
+  color: #2563a6;
+
+  font-weight: 600;
+
+  box-shadow:
+    0 2px 5px rgba(15, 23, 42, 0.04),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+/* Icono del enlace activo */
+.sidebar ::deep .sidebar-link.active .sidebar-icon {
+  color: #2563a6;
+  filter: drop-shadow(0 0 0.4px currentColor);
+}
