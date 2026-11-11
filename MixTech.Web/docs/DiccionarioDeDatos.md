@@ -1,405 +1,266 @@
-# Diccionario de datos — MixTech
+# Diccionario de datos
 
-**Versión:** 0.1 – Preliminar  
-**Estado:** En elaboración
+**## usuarios, roles, empleados, clientes y proveedores**
 
----
+## rol
 
-# 1. Ingresos y recepción de equipos
+### campo---------tipo------------restriccion
 
-La idea es separar el registro de recepción de los equipos que trae el cliente. De esta manera, un mismo ingreso puede contener más de un equipo y cada uno puede tener su propio seguimiento.
+    id_rol         INT             PK, autoincremental
 
-## Ingreso
+    nombre        varchar(100)    not null
 
-**### Campo ---------------- Tipo ---------------- Restricción**
+    descripcion   varchar(100)
 
-```text
-IdIngreso          INT             PK, autoincremental
-NumeroIngreso      VARCHAR(30)     UNIQUE, NOT NULL
-IdCliente          INT             FK, NOT NULL
-IdEmpleado         INT             FK, NOT NULL
-FechaIngreso       DATETIME        NOT NULL
-EstadoIngreso      VARCHAR(30)     NOT NULL
-Observaciones      VARCHAR(500)    NULL
-FechaAlta          DATETIME        NOT NULL
-```
+    fecha_alta    date
 
-**Descripción:** Almacena la información general de cada ingreso realizado en el establecimiento.
+## usuario
 
-**Observaciones:**
+### campo----------tipo----------restriccion
 
-- Un ingreso pertenece a un cliente.
-- Un empleado es responsable de registrar la recepción.
-- Un ingreso puede contener uno o varios equipos.
-- El número de ingreso será único.
+    id_usuario     INT            PK, autoincremental
 
----
+   id_rol         INT            FK, NOT NULL
 
-## IngresoEquipo
+    id_empleado    INT            FK, UNIQUE, NULL
 
-**Descripción:** Representa cada equipo recibido dentro de un ingreso.
+    nombre_usuario VARCHAR(50)    UNIQUE, NOT NULL
 
-**### Campo ---------------- Tipo ---------------- Restricción**
+    email          VARCHAR(100)   UNIQUE, NOT NULL
 
-```text
-IdIngresoEquipo     INT             PK, autoincremental
-IdIngreso           INT             FK, NOT NULL
-IdModeloDispositivo INT             FK, NOT NULL
-NumeroSerie         VARCHAR(100)    NULL
-IMEI                VARCHAR(20)     NULL
-EstadoFisico        VARCHAR(100)    NOT NULL
-FallaDeclarada      VARCHAR(500)    NOT NULL
-Observaciones       VARCHAR(500)    NULL
-```
+    passwordHash   VARCHAR(255)   NOT NULL
 
-**Descripción:** Almacena la información individual de cada dispositivo recibido.
+    estado         BOOLEAN        NOT NULL
 
-**Observaciones:**
+    fecha_alta     DATE           NOT NULL
 
-- Cada equipo pertenece a un ingreso.
-- El modelo permite identificar la marca y el tipo de dispositivo.
-- El número de serie y el IMEI podrán ser opcionales, dependiendo del dispositivo.
-- Cada equipo podrá tener sus propias fotografías y accesorios asociados.
+## empleado
 
----
+### campo----------tipo----------restriccion
 
-## AccesorioIngreso
+    id_empleado   INT            PK, autoincremental
 
-**Descripción:** Registra los accesorios que el cliente entrega junto con cada equipo.
+    nombre         VARCHAR(100)   NOT NULL
 
-**### Campo ---------------- Tipo ---------------- Restricción**
+    apellido       VARCHAR(100)   NOT NULL
 
-```text
-IdAccesorioIngreso  INT             PK, autoincremental
-IdIngresoEquipo     INT             FK, NOT NULL
-Nombre              VARCHAR(100)    NOT NULL
-Descripcion         VARCHAR(200)    NULL
-```
+    dni            VARCHAR(8)     UNIQUE, NOT NULL
 
-**Observaciones:**
+    telefono       VARCHAR(30)
 
-- Un equipo podrá tener varios accesorios registrados.
-- Los accesorios se registrarán individualmente para identificar qué elementos fueron entregados.
+    email          VARCHAR(100)
 
----
+    fecha_ingreso  DATE           NOT NULL
 
-## ImagenIngreso
+    estado         BOOLEAN        NOT NULL
 
-**Descripción:** Almacena las fotografías relacionadas con la recepción de cada equipo.
+## cliente
 
-**### Campo ---------------- Tipo ---------------- Restricción**
+### campo---------tipo------------restriccion
 
-```text
-IdImagenIngreso     INT             PK, autoincremental
-IdIngresoEquipo     INT             FK, NOT NULL
-RutaImagen          VARCHAR(255)    NOT NULL
-Descripcion         VARCHAR(200)    NULL
-FechaAlta           DATETIME        NOT NULL
-```
+    id_cliente   INT             PK, autoincremental
 
-**Observaciones:**
+    nombre        varchar(100)    not null
 
-- Un equipo podrá tener varias fotografías.
-- Se almacenará la ruta del archivo y no la imagen directamente en la base de datos.
-- Las imágenes servirán como evidencia del estado físico del equipo al momento de la recepción.
+    cuit          varchar(11)     unique
 
----
+    telefono      varchar(30)
 
-# 2. Órdenes de servicio
+    email         varchar(100)
 
-Una orden de servicio representa el proceso de reparación de un equipo recibido.
+    estado        boolean
 
-## OrdenServicio
+    fecha_alta    date
 
-**### Campo ---------------- Tipo ---------------- Restricción**
+## proveedor
 
-```text
-IdOrdenServicio     INT             PK, autoincremental
-IdIngresoEquipo     INT             FK, UNIQUE, NOT NULL
-NumeroOrden         VARCHAR(30)     UNIQUE, NOT NULL
-IdEmpleado          INT             FK, NOT NULL
-EstadoOrden         VARCHAR(40)     NOT NULL
-FechaInicio         DATETIME        NULL
-FechaFinalizacion   DATETIME        NULL
-Observaciones       VARCHAR(500)    NULL
-FechaAlta           DATETIME        NOT NULL
-```
+### campo----------tipo----------restriccion
 
-**Descripción:** Almacena la información principal de cada orden de servicio generada a partir de un equipo recibido.
+    id_proveedor    INT            PK, autoincremental
 
-**Observaciones:**
+    nombre         VARCHAR(100)   NOT NULL
 
-- Cada orden de servicio corresponde a un equipo ingresado.
-- Un equipo podrá tener como máximo una orden de servicio asociada.
-- El empleado responsable podrá ser diferente del empleado que registró el ingreso.
-- El estado permitirá identificar la situación actual de la reparación.
+    cuit           VARCHAR(11)    UNIQUE
+
+    telefono       VARCHAR(30)
+
+    email          VARCHAR(100)
+
+    direccion      VARCHAR(150)
+
+    estado         BOOLEAN        NOT NULL
+
+    fecha_alta     DATE           NOT NULL
+
+## proveedor_tipo
+
+### campo----------tipo----------restriccion
+
+    id_proveedor     INT           PK, FK
+
+    id_tipo_proveedor INT          PK, FK
+
+## tipo_proveedor
+
+### campo----------tipo----------restriccion
+
+    id_tipo_proveedor INT       PK, autoincremental
+
+    nombre          VARCHAR(100)  UNIQUE, NOT NULL
+
+    descripcion     VARCHAR(150)
+
+    estado          BOOLEAN       NOT NULL
 
 ---
 
-## Diagnostico
+**##Repuesto y dispositivos**
 
-**### Campo ---------------- Tipo ---------------- Restricción**
+## repuesto
 
-```text
-IdDiagnostico       INT             PK, autoincremental
-IdOrdenServicio     INT             FK, NOT NULL
-IdEmpleado          INT             FK, NOT NULL
-Descripcion         VARCHAR(1000)   NOT NULL
-FechaDiagnostico    DATETIME        NOT NULL
-Observaciones       VARCHAR(500)    NULL
-```
+### Campo ----------- Tipo ---------- Restricción
 
-**Descripción:** Permite registrar los diagnósticos realizados durante el proceso de reparación.
+id_repuesto       INT           PK, autoincremental
 
-**Observaciones:**
+id_marca         INT       FK, NOT NULL
 
-- Una orden de servicio podrá tener varios diagnósticos.
-- Cada diagnóstico estará asociado al empleado que lo realizó.
-- Se conservará la fecha de cada diagnóstico.
+id_tipo_repuesto INT             FK, NOT NULL
 
----
+codigo_interno     VARCHAR(30)     UNIQUE, NOT NULL
 
-## TrabajoServicio
+nombre           VARCHAR(120)    NOT NULL
 
-**### Campo ---------------- Tipo ---------------- Restricción**
+descripcion       VARCHAR(300)    NULL
 
-```text
-IdTrabajoServicio   INT             PK, autoincremental
-IdOrdenServicio     INT             FK, NOT NULL
-IdEmpleado          INT             FK, NOT NULL
-Descripcion         VARCHAR(300)    NOT NULL
-EstadoTrabajo       VARCHAR(30)     NOT NULL
-FechaInicio         DATETIME        NULL
-FechaFinalizacion   DATETIME        NULL
-Observaciones       VARCHAR(500)    NULL
-```
+precio_compra     DECIMAL(12,2)   NULL
 
-**Descripción:** Registra los trabajos realizados o pendientes dentro de una orden de servicio.
+precio_venta       DECIMAL(12,2)   NULL
 
-**Observaciones:**
+estado           BOOLEAN         NOT NULL
 
-- Una orden podrá contener varios trabajos.
-- Cada trabajo podrá tener un empleado responsable.
-- Se registrará el estado y las fechas correspondientes a cada trabajo.
+fecha_alta         DATE            NOT NULL
 
----
+## tipo_repuesto
 
-# 3. Presupuestos
+### Campo ----------- Tipo ---------- Restricción
 
-Un presupuesto puede existir independientemente de una orden de servicio. Si el cliente lo acepta y todavía no existe un ingreso, se podrá generar el ingreso y su orden correspondiente.
+id_tipo_repuesto int pk, autoincrement
+nombre varchar(100) not null
+descripcion varchar(100) null
+estado boolean
 
-## Presupuesto
+## marca_repuesto
 
-**### Campo ---------------- Tipo ---------------- Restricción**
+### Campo --------------- Tipo ---------- Restricción
 
-```text
-IdPresupuesto       INT             PK, autoincremental
-NumeroPresupuesto   VARCHAR(30)     UNIQUE, NOT NULL
-IdCliente           INT             FK, NOT NULL
-IdOrdenServicio     INT             FK, NULL
-IdModeloDispositivo INT             FK, NOT NULL
-NumeroSerie         VARCHAR(100)    NULL
-EstadoPresupuesto   VARCHAR(30)     NOT NULL
-FechaEmision        DATETIME        NOT NULL
-FechaVencimiento    DATETIME        NULL
-Observaciones       VARCHAR(500)    NULL
-```
+id_marca int pk, autoincrement
+id_tipo_marca int fk, not null
+nombre varchar(100) not null
+estado boolean
 
-**Descripción:** Almacena la información general de los presupuestos realizados para clientes.
+## tipo_marca_repuesto
 
-**Observaciones:**
+### Campo --------------- Tipo ---------- Restricción
 
-- Un presupuesto podrá estar asociado a una orden de servicio existente.
-- Si `IdOrdenServicio` es NULL, se considerará un presupuesto independiente.
-- El modelo del dispositivo permitirá identificar su marca y tipo.
-- El estado permitirá identificar si el presupuesto está pendiente, aceptado, rechazado, vencido o cancelado.
+id_tipo_marca int pk, autoincrement
+nombre varchar(100) not null
+descripcion varchar(100) null
+estado boolean
 
----
+## imagen_repuesto
 
-## PresupuestoDetalle
+### Campo --------------- Tipo ---------- Restricción
 
-**### Campo ---------------- Tipo ---------------- Restricción**
+id_imagen int pk, autoincrement
+id_repuesto int fk, not null
+ruta_imagen varchar(max) not null
+es_principal boolean
+fecha_alta date
+estado
 
-```text
-IdPresupuestoDetalle INT             PK, autoincremental
-IdPresupuesto        INT             FK, NOT NULL
-IdRepuesto           INT             FK, NULL
-TipoConcepto         VARCHAR(30)     NOT NULL
-Descripcion          VARCHAR(300)    NOT NULL
-Cantidad             DECIMAL(10,2)   NOT NULL
-PrecioUnitario       DECIMAL(12,2)   NOT NULL
-Subtotal             DECIMAL(12,2)   NOT NULL
-```
+## repuesto_compatibilidad
 
-**Descripción:** Registra los conceptos incluidos en cada presupuesto, como mano de obra, repuestos u otros servicios.
+### Campo --------------- Tipo ---------- Restricción
 
-**Observaciones:**
+id_repuesto int pk, fk
+id_modelo_dispositivo int pk, fk
 
-- Un presupuesto podrá contener varios conceptos.
-- `IdRepuesto` será NULL cuando el concepto no corresponda a un repuesto del inventario.
-- Se conservará el precio utilizado al momento de generar el presupuesto.
+## marca_dispositivo
 
----
+### Campo --------------- Tipo ---------- Restricción
 
-## HistorialPresupuesto
+id_marca_dispositivo int pk, autoincrement
+nombre varchar(100)
+estado boolean
 
-**### Campo ---------------- Tipo ---------------- Restricción**
+## tipo_dispositivo
 
-```text
-IdHistorialPresupuesto INT           PK, autoincremental
-IdPresupuesto          INT           FK, NOT NULL
-Version                INT           NOT NULL
-EstadoPresupuesto      VARCHAR(30)   NOT NULL
-FechaModificacion      DATETIME      NOT NULL
-Observaciones          VARCHAR(500)  NULL
-```
+### Campo --------------- Tipo ---------- Restricción
 
-**Descripción:** Permite registrar las modificaciones y versiones realizadas sobre un presupuesto.
+id_tipo_dispositivo int pk, autoincrement
+nombre varchar(100)
+descripcion varchar(100)
+estado boolean
 
-**Observaciones:**
+## modelo_dispositivo
 
-- Un presupuesto podrá tener varias versiones.
-- Se conservará la fecha de cada modificación.
-- La versión permitirá identificar las distintas actualizaciones del presupuesto.
+### Campo --------------- Tipo ---------- Restricción
 
----
+id_modelo_dispositivo int pk, autoincrement
+id_marca_dispositivo int fk
+id_tipo_dispositivo int fk
+nombre varchar(100)
+estado boolean
 
-# 4. Ventas directas
+**##ingreso y recepcion de equipos**
 
-Una venta directa permite vender repuestos o productos sin necesidad de generar una orden de servicio.
+## ingreso
 
-## Venta
+### Campo --------------- Tipo ---------- Restricción
 
-**### Campo ---------------- Tipo ---------------- Restricción**
+id_ingreso int pk, autoincrement
+codigo_ingreso varchar(30) unique, not null
+id_cliente int fk, null
+id_empleado int fk, not null
+fecha_ingreso date
+estado_ingreso varchar(100) not null
+observaciones varchar(500) null
 
-```text
-IdVenta             INT             PK, autoincremental
-NumeroVenta         VARCHAR(30)     UNIQUE, NOT NULL
-IdCliente           INT             FK, NULL
-IdEmpleado          INT             FK, NOT NULL
-FechaVenta          DATETIME        NOT NULL
-Subtotal            DECIMAL(12,2)   NOT NULL
-Descuento           DECIMAL(12,2)   NOT NULL
-Total               DECIMAL(12,2)   NOT NULL
-EstadoVenta         VARCHAR(30)     NOT NULL
-Observaciones       VARCHAR(500)    NULL
-```
+## ingreso_equipo
 
-**Descripción:** Almacena la información general de las ventas directas realizadas en el establecimiento.
+### Campo --------------- Tipo ---------- Restricción
 
-**Observaciones:**
+id_ingreso_equipo int pk, autoincrement
+id_ingreso int fk, not null
+id_modelo_dispositivo int fk, not null
+numero_serie varchar(100) null
+imei varchar(20) null
+estado_fisico varchar(100) not null
+fecha_alta date
+observaciones varchar(500) null
 
-- El cliente será opcional.
-- Cada venta tendrá un empleado responsable.
-- Una venta podrá contener uno o varios productos.
-- El total se calculará considerando los importes y descuentos correspondientes.
+## imagen_ingreso
 
----
+### Campo --------------- Tipo ---------- Restricción
 
-## VentaDetalle
+id_imagen_ingreso int pk, autoincrement
+id_ingreso_equipo int fk, not null
+ruta_imagen varchar(max)
+fecha_alta date
+estado boolean
 
-**### Campo ---------------- Tipo ---------------- Restricción**
+## accesorio_ingreso
 
-```text
-IdVentaDetalle      INT             PK, autoincremental
-IdVenta             INT             FK, NOT NULL
-IdRepuesto          INT             FK, NOT NULL
-Cantidad            DECIMAL(10,2)   NOT NULL
-PrecioUnitario      DECIMAL(12,2)   NOT NULL
-Descuento           DECIMAL(12,2)   NOT NULL
-Subtotal            DECIMAL(12,2)   NOT NULL
-```
+### Campo --------------- Tipo ---------- Restricción
 
-**Descripción:** Registra los productos y repuestos incluidos en cada venta.
+id_accesorio_ingreso int pk, autoincrement
+id_ingreso_equipo int fk, not null
+nombre varchar(250)
 
-**Observaciones:**
+**##ordenes de servicio**
 
-- Una venta podrá contener varios detalles.
-- Cada detalle estará asociado a un repuesto del inventario.
-- Se conservará el precio unitario utilizado al momento de la venta.
+## orden_servicio
 
----
+### Campo --------------- Tipo ---------- Restricción
 
-# 5. Comprobantes
-
-En esta primera versión, contemplamos el registro de los comprobantes generados para las distintas operaciones del sistema.
-
-## Comprobante
-
-**### Campo ---------------- Tipo ---------------- Restricción**
-
-```text
-IdComprobante       INT             PK, autoincremental
-NumeroComprobante   VARCHAR(30)     UNIQUE, NOT NULL
-TipoComprobante     VARCHAR(30)     NOT NULL
-IdIngreso           INT             FK, NULL
-IdPresupuesto       INT             FK, NULL
-IdVenta             INT             FK, NULL
-RutaArchivo         VARCHAR(255)    NULL
-FechaEmision        DATETIME        NOT NULL
-```
-
-**Descripción:** Almacena la información de los comprobantes y documentos generados por el sistema.
-
-**Observaciones:**
-
-- Un comprobante podrá estar relacionado con un ingreso, presupuesto o venta.
-- La ruta del archivo permitirá localizar el documento generado.
-- El tipo de comprobante permitirá identificar el documento emitido.
-
----
-
-# 6. Relaciones entre entidades
-
-**## Entidad principal ---------------- Entidad relacionada ---------------- Cardinalidad**
-
-| Entidad principal | Entidad relacionada  | Cardinalidad |
-| ----------------- | -------------------- | ------------ |
-| Cliente           | Ingreso              | 1:N          |
-| Empleado          | Ingreso              | 1:N          |
-| Ingreso           | IngresoEquipo        | 1:N          |
-| ModeloDispositivo | IngresoEquipo        | 1:N          |
-| IngresoEquipo     | AccesorioIngreso     | 1:N          |
-| IngresoEquipo     | ImagenIngreso        | 1:N          |
-| IngresoEquipo     | OrdenServicio        | 1:1          |
-| Empleado          | OrdenServicio        | 1:N          |
-| OrdenServicio     | Diagnostico          | 1:N          |
-| OrdenServicio     | TrabajoServicio      | 1:N          |
-| Empleado          | Diagnostico          | 1:N          |
-| Empleado          | TrabajoServicio      | 1:N          |
-| Cliente           | Presupuesto          | 1:N          |
-| OrdenServicio     | Presupuesto          | 1:N          |
-| ModeloDispositivo | Presupuesto          | 1:N          |
-| Presupuesto       | PresupuestoDetalle   | 1:N          |
-| Presupuesto       | HistorialPresupuesto | 1:N          |
-| Repuesto          | PresupuestoDetalle   | 1:N          |
-| Cliente           | Venta                | 1:N          |
-| Empleado          | Venta                | 1:N          |
-| Venta             | VentaDetalle         | 1:N          |
-| Repuesto          | VentaDetalle         | 1:N          |
-
-**Relaciones de Comprobante:**
-
-- Ingreso — Comprobante.
-- Presupuesto — Comprobante.
-- Venta — Comprobante.
-
-La cardinalidad definitiva de estas relaciones queda pendiente de análisis.
-
----
-
-# 7. Pendientes de análisis
-
-- Definir los estados definitivos de ingresos y órdenes de servicio.
-- Determinar si un presupuesto podrá tener varias versiones completas con sus respectivos detalles.
-- Definir cómo se registrarán los pagos, señas y pagos parciales.
-- Diseñar las entidades relacionadas con garantías.
-- Definir cómo se vincularán las reparaciones con los repuestos utilizados.
-- Analizar el registro de movimientos de inventario por ventas y reparaciones.
-- Definir las condiciones de emisión y almacenamiento de comprobantes.
-
----
-
-**Fin del documento – Versión 0.1**
-
-_Documento preliminar sujeto a modificaciones durante el análisis y desarrollo de MixTech._
+id_orden_servicio int pk, autoincrement

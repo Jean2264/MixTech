@@ -1,0 +1,45 @@
+@page "/nuevo-ingreso"
+
+<main class="nuevo-ingreso">
+
+    <div class="nuevo-ingreso-options">
+        <div class="options-title">
+            <h2>Selecciones de operación</h2>
+        </div>
+       <div class="options">
+         <ul>
+            <li><button class="btn-options" @onclick='()=> SeleccionarOperacion("ordenServicio")'> <i class="bi bi-plus-circle sidebar-icon" aria-hidden="true"></i> Orden de servicio</button></li>
+            <li><button class="btn-options"  @onclick='()=> SeleccionarOperacion("presupuesto")'><i class="bi bi-file-earmark-text" aria-hidden="true"></i> Presupuesto</button></li>
+            <li><button class="btn-options"  @onclick='()=> SeleccionarOperacion("ventaDirecta")'><i class="bi bi-cart-check" aria-hidden="true"></i> Venta directa</button></li>
+        </ul>
+       </div>
+    </div>
+
+@switch(operacionSeleccionada)
+{
+    case "ordenServicio":
+       <div class="orden-servicio">
+        <h1>Orden de servicio</h1>
+       </div>
+        break;
+    case "presupuesto":
+        <div class="presupuesto">
+            <h1>Presupuesto</h1>
+        </div>
+        break;
+    case "ventaDirecta":
+        <div class="venta-directa">
+            <h1>Venta directa</h1>
+        </div>
+        break;
+}
+
+</main>
+
+@code{
+    private string operacionSeleccionada= "ordenServicio";
+    private void SeleccionarOperacion(string operacion)
+    {
+        operacionSeleccionada=operacion;
+    }
+}
