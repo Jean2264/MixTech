@@ -21,6 +21,7 @@
     id_usuario     INT            PK, autoincremental
 
    id_rol         INT            FK, NOT NULL
+codigo_usuario varchar(30) unique null
 
     id_empleado    INT            FK, UNIQUE, NULL
 
@@ -39,6 +40,7 @@
 ### campo----------tipo----------restriccion
 
     id_empleado   INT            PK, autoincremental
+dni varchar(8) unique not null
 
     nombre         VARCHAR(100)   NOT NULL
 
@@ -264,3 +266,246 @@ nombre varchar(250)
 ### Campo --------------- Tipo ---------- Restricción
 
 id_orden_servicio int pk, autoincrement
+id_ingreso_equipo int fk, unique, not null
+numero_orden varchar(30) unique, not null
+id_empleado int fk, not null
+estado_orden varchar(40) not null
+fecha_inicio date null
+fecha_finalizacion date null
+observaciones varchar(500) null
+fecha_alta date not null
+
+## diagnostico
+
+### Campo --------------- Tipo ---------- Restricción
+
+id_diagnostico int pk, autoincrementt
+id_orden_servicio int fk, not null
+id_empleado int fk, not null
+descripcion varchar(max) not null
+fecha_diagnostico date not null
+observacion varchar(500) null
+
+\*_observacion_
+una misma orden puede tener varios diagnosticos
+
+## trabajo_servicio
+
+### Campo --------------- Tipo ---------- Restricción
+
+id_trabajo_servicio int pk, autoincrement
+id_orden_servicio int fk, not null
+id_empleado int fk, not null
+descripcion varchar(300) not null
+estado_trabajo varchar(30) not null
+fecha_inicio date null
+fecha_finalizacion date null
+observaciones VARCHAR(500) null
+
+**Descripción:** Registra los trabajos realizados o pendientes dentro de una orden de servicio.
+
+**Observaciones:**
+
+- Una orden podrá contener varios trabajos.
+- Cada trabajo podrá tener un empleado responsable.
+- Se registrará el estado y las fechas correspondientes a cada trabajo.
+
+## presupuesto
+
+### Campo --------------- Tipo ---------- Restricción
+
+id_presupuesto int pk, autoincrement
+codigo_presupuesto varchar(30) unique null
+id_cliente int fk, null
+id_orden_servicio int fk
+id_modelo_dispositivo int fk, not null
+numero_serie varchar(100) null
+estado_presupuesto varchar(30) not null
+fecha_emision date not null
+observaciones varchar(300) null
+
+**Descripción:** Almacena la información general de los presupuestos realizados para clientes.
+
+**Observaciones:**
+
+- Un presupuesto podrá estar asociado a una orden de servicio existente.
+- Si `IdOrdenServicio` es NULL, se considerará un presupuesto independiente.
+- El modelo del dispositivo permitirá identificar su marca y tipo.
+- El estado permitirá identificar si el presupuesto está pendiente, aceptado, rechazado, vencido o cancelado.
+
+## presupuesto_detalle
+
+### Campo --------------- Tipo ---------- Restricción
+
+id_presupuesto_detalle int pk, autoincrement
+id_presupuesto int fk, not null
+id_repuesto int fk
+tipo_concepto varchar(30) not null
+descripcion varchar(30) not null
+cantidad int  
+precio_unitario decimal(12,2) not null
+subtotal decimal(12,2) not null
+
+**Descripción:** Registra los conceptos incluidos en cada presupuesto, como mano de obra, repuestos u otros servicios.
+
+**Observaciones:**
+
+- Un presupuesto podrá contener varios conceptos.
+- `IdRepuesto` será NULL cuando el concepto no corresponda a un repuesto del inventario.
+- Se conservará el precio utilizado al momento de generar el presupuesto.
+
+**##ventas directas**
+
+## venta
+
+### Campo --------------- Tipo ---------- Restricción
+
+id_venta int pk, autoincrement
+codigo_venta varchar(30) unique not null
+id_cliente int fk null
+id_empleado int not null
+fecha_venta date
+descuento decimal(12,2)
+subtotal decimal(12,2)
+total decimal(12,2)
+estado_venta varchar(30) not null
+observacion varchar(500)
+
+**Descripción:** Almacena la información general de las ventas directas realizadas en el establecimiento.
+
+**Observaciones:**
+
+- El cliente será opcional.
+- Cada venta tendrá un empleado responsable.
+- Una venta podrá contener uno o varios productos.
+- El total se calculará considerando los importes y descuentos correspondientes.
+
+## venta_detalle
+
+### Campo --------------- Tipo ---------- Restricción
+
+id_venta_detalle int pk, autoincrement
+id_venta int fk
+id_repuesto int fk not null
+cantidad int  
+descuento decimal(12,2)
+subtotal decimal(12,2)
+
+**Descripción:** Registra los productos y repuestos incluidos en cada venta.
+
+**Observaciones:**
+
+- Una venta podrá contener varios detalles.
+- Cada detalle estará asociado a un repuesto del inventario.
+- Se conservará el precio unitario utilizado al momento de la venta.
+
+**##comprobantes**
+
+## comprobante
+
+### Campo --------------- Tipo ---------- Restricción
+
+id_comprobante int pk, autoincrement
+codigo_comprobante varchar(30) unique
+tipo_comprobante varchar(30)
+id_ingreso int null
+id_presupuesto int fk, null
+id_venta int fk, null
+ruta_archivo varchar(255)
+fecha_emision date
+
+**Descripción:** Almacena la información de los comprobantes y documentos generados por el sistema.
+
+**Observaciones:**
+
+- Un comprobante podrá estar relacionado con un ingreso, presupuesto o venta.
+- La ruta del archivo permitirá localizar el documento generado.
+- El tipo de comprobante permitirá identificar el documento emitido.
+- La cardinalidad definitiva y la regla que determinará a qué operación pertenece cada comprobante quedan pendientes de análisis.
+
+**##relaciones entre tablas**
+
+La siguiente tabla resume las relaciones planteadas hasta el momento.
+
+### Entidad principal -------- Entidad relacionada -------- Cardinalidad
+
+Rol Usuario 1:N
+
+Empleado Usuario 1:0..1
+
+Proveedor ProveedorTipo 1:N
+
+TipoProveedor ProveedorTipo 1:N
+
+TipoMarcaRepuesto MarcaRepuesto 1:N
+
+MarcaRepuesto Repuesto 1:N
+
+TipoRepuesto Repuesto 1:N
+
+Repuesto ImagenRepuesto 1:N
+
+MarcaDispositivo ModeloDispositivo 1:N
+
+TipoDispositivo ModeloDispositivo 1:N
+
+Repuesto RepuestoCompatibilidad 1:N
+
+ModeloDispositivo RepuestoCompatibilidad 1:N
+
+Cliente Ingreso 1:N
+
+Empleado Ingreso 1:N
+
+Ingreso IngresoEquipo 1:N
+
+ModeloDispositivo IngresoEquipo 1:N
+
+IngresoEquipo AccesorioIngreso 1:N
+
+IngresoEquipo ImagenIngreso 1:N
+
+IngresoEquipo OrdenServicio 1:1
+
+Empleado OrdenServicio 1:N
+
+OrdenServicio Diagnostico 1:N
+
+OrdenServicio TrabajoServicio 1:N
+
+Empleado Diagnostico 1:N
+
+Empleado TrabajoServicio 1:N
+
+Cliente Presupuesto 1:N
+
+OrdenServicio Presupuesto 1:N
+
+ModeloDispositivo Presupuesto 1:N
+
+Presupuesto PresupuestoDetalle 1:N
+
+Presupuesto HistorialPresupuesto 1:N
+
+Repuesto PresupuestoDetalle 1:N
+
+Cliente Venta 1:N
+
+Empleado Venta 1:N
+
+Venta VentaDetalle 1:N
+
+Repuesto VentaDetalle 1:N
+
+**Relaciones de Comprobante:**
+
+- Ingreso — Comprobante.
+- Presupuesto — Comprobante.
+- Venta — Comprobante.
+
+La cardinalidad definitiva de estas relaciones queda pendiente de análisis.
+
+**Relaciones N:M identificadas:**
+
+- Proveedor — TipoProveedor, mediante ProveedorTipo.
+- Repuesto — ModeloDispositivo, mediante RepuestoCompatibilidad.
