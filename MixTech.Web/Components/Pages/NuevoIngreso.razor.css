@@ -65,3 +65,139 @@
   border-start-end-radius: 10px;
   color: #0677f0;
 }
+
+.section-cliente {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cliente-tipo {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+
+  padding: 5px;
+  background-color: #f1f5f9;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.btn-cliente {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  padding: 11px 15px;
+
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 7px;
+
+  color: #64748b;
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cliente i {
+  font-size: 1.1rem;
+}
+
+.btn-cliente:hover:not(.active) {
+  background-color: #e2e8f0;
+  color: #334155;
+}
+
+.btn-cliente.active {
+  background-color: #ffffff;
+  color: #2563eb;
+  border-color: #dbeafe;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+.btn-cliente:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+.cliente-particular {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  background-color: #ffffff;
+  padding: 1rem;
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  box-shadow: 0 20px 40px rgb(0, 0, 0 /0.2);
+}
+.cliente-registrado {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: #ffffff;
+  padding: 1rem;
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  box-shadow: 0 20px 40px rgb(0, 0, 0 /0.2);
+}
+
+.cliente-search {
+  display: flex;
+  max-width: 400px;
+  gap: 1rem;
+}
+.cliente-search-input {
+  flex: 1;
+  display: flex;
+  gap: 4px;
+  padding: 11px 12px;
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  outline: none;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+.cliente-search-input input {
+  flex: 1;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #35383d;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  outline: none;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.form-group input:focus {
+  border-color: #0677f0;
+  box-shadow: 0 0px 3px rgba(6, 119, 240, 0.1);
+}
+
+.form-group input::placeholder {
+  color: #9ca3af;
+  font-size: 0.9rem;
+}

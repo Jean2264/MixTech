@@ -33,7 +33,68 @@
         <div class="orden-servicio-form">
             <form>
 
-                <section class="section-cliente"></section>
+                <section class="section-cliente">
+                    <div class="section-header">
+                        <h3>Datos del cliente</h3>
+                    </div>
+                    <div class="cliente-tipo">
+
+    <button type="button"
+            class="btn-cliente @(esParticular ? "active" : "")"
+            aria-pressed="@esParticular"
+            @onclick="SeleccionarParticular">
+
+        <i class="bi bi-person"></i>
+        <span>Particular</span>
+
+    </button>
+
+    <button type="button"
+            class="btn-cliente @(!esParticular ? "active" : "")"
+            aria-pressed="@(!esParticular)"
+            @onclick="SeleccionarRegistrado">
+
+        <i class="bi bi-people"></i>
+        <span>Registrado</span>
+
+    </button>
+
+</div>
+                    <div class="cliente-contenido">
+
+                                @if (esParticular)
+                                {
+                                    <div class="cliente-particular">
+                                    <div class="form-group">
+                                        <label for="nombre">Nombre</label>
+                                        <input type="text" id="nombre" class="form-control"
+                                        placeholder="Ingrese el nombre del cliente" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cuit">Cuit/DNI</label>
+                                        <input type="text" id="cuit" class="form-control"
+                                        placeholder="Ingrese el Cuit/DNI del cliente" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="telefono">Telefono</label>
+                                        <input type="text" id="telefono" class="form-control"
+                                        placeholder="Ej: +54 9 1143019723" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email (opcional)</label>
+                                        <input type="email" id="email" class="form-control"
+                                        placeholder="Ej: example@gmail.com" />
+                                    </div>
+                                    </div>
+                                }
+                                @if(!esParticular)
+                                {
+                                    <div class="cliente-registrado">
+                                        <div class="cliente-search"><div class="cliente-search-input"><i class="bi bi-search"></i><input placeholder="buscar cliente por nombre, cuit/dni o email"/></div><button class="btn-search">Buscar</button></div>
+                                    </div>
+                                }
+                            </div>
+                </section>
                 <section class="section-recepcion"></section>
                 <section class="section-dispositivos"></section>
             </form>
@@ -63,5 +124,17 @@
     private void SeleccionarOperacion(string operacion)
     {
         operacionSeleccionada=operacion;
+    }
+
+    private bool esParticular = true;
+
+    private void SeleccionarParticular()
+    {
+        esParticular = true;
+    }
+
+    private void SeleccionarRegistrado()
+    {
+        esParticular = false;
     }
 }
