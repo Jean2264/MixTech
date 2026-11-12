@@ -8,9 +8,20 @@
         </div>
        <div class="options">
          <ul>
-            <li><button class="btn-options" @onclick='()=> SeleccionarOperacion("ordenServicio")'> <i class="bi bi-plus-circle sidebar-icon" aria-hidden="true"></i> Orden de servicio</button></li>
-            <li><button class="btn-options"  @onclick='()=> SeleccionarOperacion("presupuesto")'><i class="bi bi-file-earmark-text" aria-hidden="true"></i> Presupuesto</button></li>
-            <li><button class="btn-options"  @onclick='()=> SeleccionarOperacion("ventaDirecta")'><i class="bi bi-cart-check" aria-hidden="true"></i> Venta directa</button></li>
+            <li><button class="btn-options @(operacionSeleccionada == "ordenServicio" ? "active" : "")" 
+
+            @onclick='()=> SeleccionarOperacion("ordenServicio")'> 
+            <i class="bi bi-plus-circle sidebar-icon" aria-hidden="true"> </i>
+             Orden de servicio</button></li>
+
+            <li><button class="btn-options @(operacionSeleccionada == "presupuesto" ? "active" : "")"  @onclick='()=> SeleccionarOperacion("presupuesto")'>
+                <i class="bi bi-file-earmark-text" aria-hidden="true"></i> 
+                Presupuesto</button></li>
+
+            <li><button class="btn-options @(operacionSeleccionada == "ventaDirecta" ? "active" : "")"  @onclick='()=> SeleccionarOperacion("ventaDirecta")'>
+                <i class="bi bi-cart-check" aria-hidden="true">
+
+                </i> Venta directa</button></li>
         </ul>
        </div>
     </div>
@@ -19,7 +30,18 @@
 {
     case "ordenServicio":
        <div class="orden-servicio">
-        <h1>Orden de servicio</h1>
+        <div class="orden-servicio-form">
+            <form>
+
+                <section class="section-cliente"></section>
+                <section class="section-recepcion"></section>
+                <section class="section-dispositivos"></section>
+            </form>
+        </div>
+        <div class="orden-servicio-resumen">
+            <section class="resumen-lista"></section>
+            <button class="btn-alta">Guardar ingreso</button>
+        </div>
        </div>
         break;
     case "presupuesto":

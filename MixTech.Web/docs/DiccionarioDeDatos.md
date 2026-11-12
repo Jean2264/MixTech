@@ -317,7 +317,7 @@ observaciones VARCHAR(500) null
 id_presupuesto int pk, autoincrement
 codigo_presupuesto varchar(30) unique null
 id_cliente int fk, null
-id_orden_servicio int fk
+id_ingreso int fk
 id_modelo_dispositivo int fk, not null
 numero_serie varchar(100) null
 estado_presupuesto varchar(30) not null
@@ -332,6 +332,16 @@ observaciones varchar(300) null
 - Si `IdOrdenServicio` es NULL, se considerará un presupuesto independiente.
 - El modelo del dispositivo permitirá identificar su marca y tipo.
 - El estado permitirá identificar si el presupuesto está pendiente, aceptado, rechazado, vencido o cancelado.
+
+## presupuesto_equipo
+
+### Campo --------------- Tipo ---------- Restricción
+
+id_presupuesto_equipo int pk, autoincrement
+id_presupuesto int fk, not null
+modelo varchar(100) not null
+numero_serie varchar(100) null
+descrpcion varchar(300) null
 
 ## presupuesto_detalle
 

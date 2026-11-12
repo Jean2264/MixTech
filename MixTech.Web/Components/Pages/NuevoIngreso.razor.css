@@ -46,18 +46,19 @@
   padding: 10px;
   font-weight: 600 !important;
   color: #4f5966;
-  cursor: default;
+  cursor: pointer;
 }
 .btn-options:hover {
   background-color: #eceffa;
   border-start-start-radius: 10px;
   border-start-end-radius: 10px;
   color: #0677f0;
+
   border-bottom: 3px solid #0677f0;
   box-shadow: 0 2px 5px rgba(15, 23, 42, 0.04);
 }
 
-.btn-options:focus {
+.btn-options.active {
   background-color: #e6ebfc;
   border-bottom: 3px solid #0677f0;
   border-start-start-radius: 10px;
