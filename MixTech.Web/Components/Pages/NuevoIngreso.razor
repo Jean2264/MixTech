@@ -1,4 +1,5 @@
 @page "/nuevo-ingreso"
+@using MixTech.Web.Components.shared
 
 <main class="nuevo-ingreso">
 
@@ -90,7 +91,7 @@
                                 @if(!esParticular)
                                 {
                                     <div class="cliente-registrado">
-                                        <div class="cliente-search"><div class="cliente-search-input"><i class="bi bi-search"></i><input placeholder="buscar cliente por nombre, cuit/dni o email"/></div><button class="btn-search">Buscar</button></div>
+                                      <Autocomplete/>
                                     </div>
                                 }
                             </div>

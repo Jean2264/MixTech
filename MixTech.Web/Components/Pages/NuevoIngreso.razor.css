@@ -65,6 +65,9 @@
   border-start-end-radius: 10px;
   color: #0677f0;
 }
+.orden-servicio {
+  max-width: 60%;
+}
 
 .section-cliente {
   display: flex;

@@ -1,0 +1,65 @@
+<div class="autocomplete-container">
+
+    <div class="autocomplete-input">
+
+        <i class="bi bi-search"></i>
+
+        <input type="text"
+               placeholder="Buscar..."
+               @bind="textoBusqueda"
+               @bind:event="oninput" />
+
+    </div>
+
+ @if (!string.IsNullOrWhiteSpace(textoBusqueda))
+    {
+        <div class="autocomplete-dropdown">
+
+            <div class="autocomplete-results">
+
+                @if (resultadosFiltrados.Count > 0)
+                {
+                    @foreach (var resultado in resultadosFiltrados)
+                    {
+                        <div class="autocomplete-item">
+                            @resultado
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="autocomplete-empty">
+                        No se encontraron resultados.
+                    </div>
+                }
+
+            </div>
+
+            <div class="autocomplete-footer">
+                <span>Resultados encontrados</span>
+                <span>@resultadosFiltrados.Count</span>
+            </div>
+
+        </div>
+    }
+
+</div>
+
+@code {
+    private string textoBusqueda = "";
+
+    private List<string> datos = new()
+    {
+        "Samsung",
+        "Motorola",
+        "Apple",
+        "Xiaomi",
+        "Huawei",
+        "Nokia"
+    };
+
+    private List<string> resultadosFiltrados =>
+        datos.Where(x =>
+            x.Contains(textoBusqueda, StringComparison.OrdinalIgnoreCase)
+        ).ToList();
+}
