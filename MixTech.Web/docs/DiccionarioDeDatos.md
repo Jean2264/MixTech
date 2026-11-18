@@ -46,8 +46,6 @@ dni varchar(8) unique not null
 
     apellido       VARCHAR(100)   NOT NULL
 
-    dni            VARCHAR(8)     UNIQUE, NOT NULL
-
     telefono       VARCHAR(30)
 
     email          VARCHAR(100)
