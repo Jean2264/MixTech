@@ -145,7 +145,7 @@ fecha_alta         DATE            NOT NULL
 ### Campo ----------- Tipo ---------- Restricción
 
 id_tipo_repuesto int pk, autoincrement
-nombre varchar(100) not null
+nombre varchar(100) not null unique
 descripcion varchar(100) null
 estado boolean
 
@@ -155,7 +155,7 @@ estado boolean
 
 id_marca int pk, autoincrement
 id_tipo_marca int fk, not null
-nombre varchar(100) not null
+nombre varchar(100) not null unique
 estado boolean
 
 ## tipo_marca_repuesto
@@ -176,7 +176,7 @@ id_repuesto int fk, not null
 ruta_imagen varchar(max) not null
 es_principal boolean
 fecha_alta date
-estado
+estado boolean not null default 1
 
 ## repuesto_compatibilidad
 
@@ -277,14 +277,13 @@ fecha_alta date not null
 
 ### Campo --------------- Tipo ---------- Restricción
 
-id_diagnostico int pk, autoincrementt
+id_diagnostico int pk, autoincremental
 id_orden_servicio int fk, not null
 id_empleado int fk, not null
 descripcion varchar(max) not null
 fecha_diagnostico date not null
 observacion varchar(500) null
 
-\*_observacion_
 una misma orden puede tener varios diagnosticos
 
 ## trabajo_servicio
@@ -316,51 +315,28 @@ id_presupuesto int pk, autoincrement
 codigo_presupuesto varchar(30) unique null
 id_cliente int fk, null
 id_ingreso int fk
-id_modelo_dispositivo int fk, not null
-numero_serie varchar(100) null
+
 estado_presupuesto varchar(30) not null
 fecha_emision date not null
+fecha_vencimiento date not null
 observaciones varchar(300) null
 
 **Descripción:** Almacena la información general de los presupuestos realizados para clientes.
-
-**Observaciones:**
-
-- Un presupuesto podrá estar asociado a una orden de servicio existente.
-- Si `IdOrdenServicio` es NULL, se considerará un presupuesto independiente.
-- El modelo del dispositivo permitirá identificar su marca y tipo.
-- El estado permitirá identificar si el presupuesto está pendiente, aceptado, rechazado, vencido o cancelado.
-
-## presupuesto_equipo
-
-### Campo --------------- Tipo ---------- Restricción
-
-id_presupuesto_equipo int pk, autoincrement
-id_presupuesto int fk, not null
-modelo varchar(100) not null
-numero_serie varchar(100) null
-descrpcion varchar(300) null
 
 ## presupuesto_detalle
 
 ### Campo --------------- Tipo ---------- Restricción
 
-id_presupuesto_detalle int pk, autoincrement
-id_presupuesto int fk, not null
-id_repuesto int fk
-tipo_concepto varchar(30) not null
-descripcion varchar(30) not null
-cantidad int  
-precio_unitario decimal(12,2) not null
-subtotal decimal(12,2) not null
+id_presupuesto_detalle INT PK, autoincremental
+id_presupuesto INT FK, NOT NULL
+id_repuesto INT FK, NULL
+tipo_concepto VARCHAR(30) NOT NULL
+descripcion VARCHAR(300) NOT NULL
+cantidad DECIMAL(10,2) NOT NULL
+precio_unitario DECIMAL(12,2) NOT NULL
+subtotal DECIMAL(12,2) NOT NULL
 
 **Descripción:** Registra los conceptos incluidos en cada presupuesto, como mano de obra, repuestos u otros servicios.
-
-**Observaciones:**
-
-- Un presupuesto podrá contener varios conceptos.
-- `IdRepuesto` será NULL cuando el concepto no corresponda a un repuesto del inventario.
-- Se conservará el precio utilizado al momento de generar el presupuesto.
 
 **##ventas directas**
 
@@ -371,11 +347,11 @@ subtotal decimal(12,2) not null
 id_venta int pk, autoincrement
 codigo_venta varchar(30) unique not null
 id_cliente int fk null
-id_empleado int not null
-fecha_venta date
-descuento decimal(12,2)
-subtotal decimal(12,2)
-total decimal(12,2)
+id_empleado int fk not null
+fecha_venta date not null
+descuento decimal(12,2) not null
+subtotal decimal(12,2) not null
+total decimal(12,2) not null
 estado_venta varchar(30) not null
 observacion varchar(500)
 
@@ -392,12 +368,13 @@ observacion varchar(500)
 
 ### Campo --------------- Tipo ---------- Restricción
 
-id_venta_detalle int pk, autoincrement
-id_venta int fk
-id_repuesto int fk not null
-cantidad int  
-descuento decimal(12,2)
-subtotal decimal(12,2)
+id_venta_detalle INT PK, autoincremental
+id_venta INT FK, NOT NULL
+id_repuesto INT FK, NOT NULL
+cantidad INT NOT NULL
+precio_unitario DECIMAL(12,2) NOT NULL
+descuento DECIMAL(12,2) NOT NULL
+subtotal DECIMAL(12,2) NOT NULL
 
 **Descripción:** Registra los productos y repuestos incluidos en cada venta.
 
@@ -416,11 +393,9 @@ subtotal decimal(12,2)
 id_comprobante int pk, autoincrement
 codigo_comprobante varchar(30) unique
 tipo_comprobante varchar(30)
-id_ingreso int null
-id_presupuesto int fk, null
-id_venta int fk, null
+id_concepto INT NOT NULL
 ruta_archivo varchar(255)
-fecha_emision date
+fecha_emision date not null
 
 **Descripción:** Almacena la información de los comprobantes y documentos generados por el sistema.
 
@@ -489,11 +464,7 @@ Cliente Presupuesto 1:N
 
 OrdenServicio Presupuesto 1:N
 
-ModeloDispositivo Presupuesto 1:N
-
 Presupuesto PresupuestoDetalle 1:N
-
-Presupuesto HistorialPresupuesto 1:N
 
 Repuesto PresupuestoDetalle 1:N
 
